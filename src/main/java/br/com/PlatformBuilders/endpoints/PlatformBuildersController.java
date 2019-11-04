@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,46 +24,50 @@ import br.com.PlatformBuilders.repository.PlatformBuildersRepository;
 
 public class PlatformBuildersController {
 
-	private final PlatformBuildersRepository repository;
+	private final PlatformBuildersRepository _repository;
 
 	@Autowired
 	public PlatformBuildersController(PlatformBuildersRepository repository) {
-		this.repository = repository;
+		this._repository = repository;
 	}
 
 	@GetMapping
 	public ResponseEntity<?> listAll() {
-		List<Cliente> clientes = repository.findAll();
+		List<Cliente> clientes = _repository.findAll();
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> findClientById(@PathVariable("id") Long id) {
-		Cliente cliente = repository.getOne(id);
+		verifyIfClientExists(id);
+		Cliente cliente = _repository.getOne(id);
 		return new ResponseEntity<>(cliente, HttpStatus.OK);
 	}
 
 	@PostMapping
+	@Transactional(rollbackFor = Exception.class)
 	public ResponseEntity<?> saveClient(@RequestBody Cliente cliente) {
-		Cliente clienteCreate = repository.save(cliente);
+		Cliente clienteCreate = _repository.save(cliente);
 		return new ResponseEntity<>(clienteCreate, HttpStatus.CREATED);
 	}
 	
 	@PutMapping
+	@Transactional(rollbackFor = Exception.class)
 	public ResponseEntity<?> updateCliente(@RequestBody Cliente cliente) {
-		Cliente newClient = repository.save(cliente);
+		verifyIfClientExists(cliente.getId());
+		Cliente newClient = _repository.save(cliente);
 		return new ResponseEntity<>(newClient, HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "/findClientByName/{nome}")
 	public ResponseEntity<?> findClientByNameIgnoreCaseContaining(@PathVariable("nome") String nome){
-		List<Cliente> clientes = repository.findByNomeIgnoreCaseContaining(nome);
+		List<Cliente> clientes = _repository.findByNomeIgnoreCaseContaining(nome);
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
 	
 	@GetMapping(path="/findByCpf/{cpf}")
 	public ResponseEntity<?> findByCpf(@PathVariable String cpf){
-		Cliente cliente = repository.findByCpf(cpf);
+		Cliente cliente = _repository.findByCpf(cpf);
 		return new ResponseEntity<>(cliente,HttpStatus.OK);
 		
 	}
@@ -70,13 +75,14 @@ public class PlatformBuildersController {
 	
 	@DeleteMapping(path="/{id}")
 	public ResponseEntity<?> deleteClient(@PathVariable("id") Long id ){
-		repository.deleteById(id);
+		verifyIfClientExists(id);
+		_repository.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	
 	private void verifyIfClientExists(Long id) {
-		if(repository.findById(id)==null)
+		if(_repository.findById(id)==null)
 			throw new ResourceNotFoundException("Client not found for ID "+ id);
 	}
 	
