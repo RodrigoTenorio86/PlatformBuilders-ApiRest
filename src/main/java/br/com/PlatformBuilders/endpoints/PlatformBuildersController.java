@@ -77,6 +77,7 @@ public class PlatformBuildersController {
 
 	@GetMapping(path = "/findClientByName/{nome}")
 	public ResponseEntity<?> findClientByNameIgnoreCaseContaining(@PathVariable("nome") String nome) {
+	
 		List<Cliente> clientes = _repository.findByNomeIgnoreCaseContaining(nome);
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
