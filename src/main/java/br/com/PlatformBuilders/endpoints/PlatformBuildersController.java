@@ -1,18 +1,26 @@
 package br.com.PlatformBuilders.endpoints;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.PlatformBuilders.errors.ResourceNotFoundException;
@@ -20,7 +28,7 @@ import br.com.PlatformBuilders.model.Cliente;
 import br.com.PlatformBuilders.repository.PlatformBuildersRepository;
 
 @RestController
-@RequestMapping(path = "v1/cliente", produces = { "application/json" }, consumes = { "application/json" })
+@RequestMapping(path = "/v1/clients", produces = { "application/json" }, consumes = { "application/json" })
 
 public class PlatformBuildersController {
 
@@ -32,58 +40,65 @@ public class PlatformBuildersController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> listAll() {
-		List<Cliente> clientes = _repository.findAll();
+	public ResponseEntity<?> listAll(@RequestParam(required=false) int page, @RequestParam(required=false) int size ) {
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Cliente> clientes = _repository.findAll(pageable);
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> findClientById(@PathVariable("id") Long id) {
 		verifyIfClientExists(id);
-		Cliente cliente = _repository.getOne(id);
+		Optional<Cliente>  cliente = _repository.findById(id);
 		return new ResponseEntity<>(cliente, HttpStatus.OK);
 	}
 
 	@PostMapping
 	@Transactional(rollbackFor = Exception.class)
-	public ResponseEntity<?> saveClient(@RequestBody Cliente cliente) {
+	public ResponseEntity<?> saveClient(@Valid @RequestBody Cliente cliente) {
 		Cliente clienteCreate = _repository.save(cliente);
 		return new ResponseEntity<>(clienteCreate, HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping
 	@Transactional(rollbackFor = Exception.class)
-	public ResponseEntity<?> updateCliente(@RequestBody Cliente cliente) {
-		verifyIfClientExists(cliente.getId());
+	public ResponseEntity<?> updateCliente(@Valid @RequestBody Cliente cliente) {
 		Cliente newClient = _repository.save(cliente);
 		return new ResponseEntity<>(newClient, HttpStatus.OK);
 	}
-	
+
+	@PatchMapping(path = "/{id}")
+	@Transactional(rollbackFor = Exception.class)
+	public ResponseEntity<?> changeClient(@Valid @RequestBody Cliente cliente, @PathVariable("id") Long id) {
+		verifyIfClientExists(id);
+		Cliente change = _repository.saveAndFlush(cliente);
+		return new ResponseEntity<>(change, HttpStatus.OK);
+	}
+
 	@GetMapping(path = "/findClientByName/{nome}")
-	public ResponseEntity<?> findClientByNameIgnoreCaseContaining(@PathVariable("nome") String nome){
+	public ResponseEntity<?> findClientByNameIgnoreCaseContaining(@PathVariable("nome") String nome) {
 		List<Cliente> clientes = _repository.findByNomeIgnoreCaseContaining(nome);
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
-	
-	@GetMapping(path="/findByCpf/{cpf}")
-	public ResponseEntity<?> findByCpf(@PathVariable String cpf){
+
+	@GetMapping(path = "/findByCpf/{cpf}")
+	public ResponseEntity<?> findByCpf(@PathVariable String cpf) {
 		Cliente cliente = _repository.findByCpf(cpf);
-		return new ResponseEntity<>(cliente,HttpStatus.OK);
-		
+		return new ResponseEntity<>(cliente, HttpStatus.OK);
+
 	}
-	
-	
-	@DeleteMapping(path="/{id}")
-	public ResponseEntity<?> deleteClient(@PathVariable("id") Long id ){
+
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<?> deleteClient(@PathVariable("id") Long id) {
 		verifyIfClientExists(id);
 		_repository.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
-	
+
 	private void verifyIfClientExists(Long id) {
-		if(_repository.findById(id)==null)
-			throw new ResourceNotFoundException("Client not found for ID "+ id);
+		Optional<Cliente> clientExists = _repository.findById(id);
+		if (!clientExists.isPresent())
+			throw new ResourceNotFoundException("Client not found for ID " + id);
 	}
-	
+
 }

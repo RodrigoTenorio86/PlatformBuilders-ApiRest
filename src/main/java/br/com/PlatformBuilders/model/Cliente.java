@@ -2,6 +2,7 @@ package br.com.PlatformBuilders.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Period;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,16 +10,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
+
 @Entity
-public class Cliente implements Serializable{
+public class Cliente implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(nullable = false)
 	private String nome;
-	@NotEmpty(message="Campo CPF é Obrigatório.")
+	@NotEmpty(message = "Campo CPF é Obrigatório.")
 	private String cpf;
+	@Column(name = "data_nascimento")
 	private LocalDate dataNascimento;
+	private int idade;
 
 	public Long getId() {
 		return id;
@@ -50,6 +54,14 @@ public class Cliente implements Serializable{
 
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	public int getIdade() {
+		return idade();
+	}
+
+	private int idade() {
+		return Period.between(getDataNascimento(), LocalDate.now()).getYears();
 	}
 
 	@Override

@@ -1,5 +1,9 @@
 package br.com.PlatformBuilders.errors;
-
+/**
+ * @author RTenorio
+ * 
+ * class lança exception quando nao encontra recursos.
+ */
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
