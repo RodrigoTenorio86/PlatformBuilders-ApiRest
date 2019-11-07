@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 
+import br.com.PlatformBuilders.util.CalcularIdade;
+import net.bytebuddy.asm.Advice.This;
+
 @Entity
 public class Cliente implements Serializable {
 	@Id
@@ -36,6 +39,10 @@ public class Cliente implements Serializable {
 		return nome;
 	}
 
+	public void setIdade(int idade) {
+		this.idade = idade;
+	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
@@ -52,16 +59,14 @@ public class Cliente implements Serializable {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(LocalDate dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {		
 		this.dataNascimento = dataNascimento;
+		this.setIdade(CalcularIdade.idade(this));
 	}
 
 	public int getIdade() {
-		return idade();
-	}
 
-	private int idade() {
-		return Period.between(getDataNascimento(), LocalDate.now()).getYears();
+		return this.idade;
 	}
 
 	@Override

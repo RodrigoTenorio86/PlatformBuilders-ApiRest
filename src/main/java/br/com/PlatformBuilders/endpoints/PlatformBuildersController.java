@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.PlatformBuilders.errors.ResourceNotFoundException;
 import br.com.PlatformBuilders.model.Cliente;
 import br.com.PlatformBuilders.repository.PlatformBuildersRepository;
+import br.com.PlatformBuilders.util.CalcularIdade;
 
 @RestController
 @RequestMapping(path = "/v1/clients", produces = { "application/json" }, consumes = { "application/json" })
@@ -56,6 +57,7 @@ public class PlatformBuildersController {
 	@PostMapping
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseEntity<?> saveClient(@Valid @RequestBody Cliente cliente) {
+
 		Cliente clienteCreate = _repository.save(cliente);
 		return new ResponseEntity<>(clienteCreate, HttpStatus.CREATED);
 	}
@@ -63,6 +65,7 @@ public class PlatformBuildersController {
 	@PutMapping
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseEntity<?> updateCliente(@Valid @RequestBody Cliente cliente) {
+		
 		Cliente newClient = _repository.save(cliente);
 		return new ResponseEntity<>(newClient, HttpStatus.OK);
 	}
