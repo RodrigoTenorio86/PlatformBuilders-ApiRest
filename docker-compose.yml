@@ -1,4 +1,4 @@
-version: '3'
+version: '2.1'
 
 services:
 
@@ -12,15 +12,16 @@ services:
     depends_on:
         mysql:
             condition: service_healthy
+      
 
   mysql:
-    image: mysql:8.0.18
+    image: rodrigotenorio86/platformmysql
     ports:
       - "3306:3306"
     volumes:
       - /var/lib/mysql
     environment:
-       MYSQL_ROOT_PASSWORD: admin
+       MYSQL_ROOT_PASSWORD: Rr123
        MYSQL_USER: root
        MYSQL_DATABASE: plaform
        MYSQL_PASSWORD: Rr123
