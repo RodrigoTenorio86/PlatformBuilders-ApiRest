@@ -1,6 +1,7 @@
 server:
    port: 9000
-   context-path: /platform
+   servlet:
+      contextPath: /platform 
 
 spring:
    jpa:
