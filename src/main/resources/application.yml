@@ -6,9 +6,11 @@ spring:
    jpa:
      database: MYSQL
      hibernate:
-        ddl-auto: validate
+        ddl-auto: update
+        dialect: org.hibernate.dialect.MySQL5Dialect
    datasource:
       url: jdbc:mysql://mysql:3306/plaform?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
       username: root
       password: Rr123
-      driver-class-name: com.mysql.jdbc.Driver
+      driver-class-name: com.mysql.cj.jdbc.Driver
+   
