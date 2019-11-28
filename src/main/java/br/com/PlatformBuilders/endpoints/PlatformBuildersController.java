@@ -7,8 +7,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +21,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.PlatformBuilders.errors.ResourceNotFoundException;
 import br.com.PlatformBuilders.model.Cliente;
 import br.com.PlatformBuilders.repository.PlatformBuildersRepository;
-import br.com.PlatformBuilders.util.CalcularIdade;
 
 @RestController
 @RequestMapping(path = "/v1/clients", produces = { "application/json" }, consumes = { "application/json" })
@@ -41,9 +40,9 @@ public class PlatformBuildersController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> listAll(@RequestParam(required=false) int page, @RequestParam(required=false) int size ) {
-		Pageable pageable = PageRequest.of(page, size);
-		Page<Cliente> clientes = _repository.findAll(pageable);
+	public ResponseEntity<?> listAll(@PageableDefault(page=0, size =5, sort="id", direction = Direction.DESC ) Pageable paginacao) {
+		
+		Page<Cliente> clientes = _repository.findAll(paginacao);
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
 
