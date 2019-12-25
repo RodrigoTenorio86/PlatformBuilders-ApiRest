@@ -23,12 +23,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.PlatformBuilders.endpoints.dto.ClienteDTO;
 import br.com.PlatformBuilders.errors.ResourceNotFoundException;
 import br.com.PlatformBuilders.model.Cliente;
 import br.com.PlatformBuilders.repository.PlatformBuildersRepository;
 
 @RestController
-@RequestMapping(path = "/v1/clients", produces = { "application/json" }, consumes = { "application/json" })
+@RequestMapping(path = "/v1/clients")
 
 public class PlatformBuildersController {
 
@@ -61,12 +62,13 @@ public class PlatformBuildersController {
 		return new ResponseEntity<>(clienteCreate, HttpStatus.CREATED);
 	}
 
-	@PutMapping
+	@PutMapping(path="/{id}")
 	@Transactional(rollbackFor = Exception.class)
-	public ResponseEntity<?> updateCliente(@Valid @RequestBody Cliente cliente) {
+	public ResponseEntity<?> updateCliente(@PathVariable Long id , @RequestBody Cliente clienteDto) {
+		verifyIfClientExists(id);
+        Cliente newClient=  _repository.save(clienteDto);
 		
-		Cliente newClient = _repository.save(cliente);
-		return new ResponseEntity<>(newClient, HttpStatus.OK);
+		return ResponseEntity.ok(newClient);
 	}
 
 	@PatchMapping(path = "/{id}")
