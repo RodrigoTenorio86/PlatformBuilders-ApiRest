@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -41,6 +43,7 @@ public class PlatformBuildersController {
 	}
 
 	@GetMapping
+	@Cacheable(value="listAllClient")
 	public ResponseEntity<?> listAll(@PageableDefault(page=0, size =5, sort="id", direction = Direction.DESC ) Pageable paginacao) {
 		
 		Page<Cliente> clientes = _repository.findAll(paginacao);
@@ -56,6 +59,7 @@ public class PlatformBuildersController {
 
 	@PostMapping
 	@Transactional(rollbackFor = Exception.class)
+	@CacheEvict(value = "listAllClient", allEntries = true)
 	public ResponseEntity<?> saveClient(@Valid @RequestBody Cliente cliente) {
 
 		Cliente clienteCreate = _repository.save(cliente);
@@ -64,6 +68,7 @@ public class PlatformBuildersController {
 
 	@PutMapping(path="/{id}")
 	@Transactional(rollbackFor = Exception.class)
+	@CacheEvict(value = "listAllClient",allEntries = true)
 	public ResponseEntity<?> updateCliente(@PathVariable Long id , @RequestBody Cliente clienteDto) {
 		verifyIfClientExists(id);
         Cliente newClient=  _repository.save(clienteDto);
@@ -73,6 +78,7 @@ public class PlatformBuildersController {
 
 	@PatchMapping(path = "/{id}")
 	@Transactional(rollbackFor = Exception.class)
+	@CacheEvict(value = "listAllClient",allEntries = true)
 	public ResponseEntity<?> changeClient( @RequestBody ClienteDTO clienteDTO, @PathVariable("id") Long id) {
 		verifyIfClientExists(id);
 		Cliente change = _repository.getOne(id);
@@ -97,6 +103,7 @@ public class PlatformBuildersController {
 	}
 
 	@DeleteMapping(path = "/{id}")
+	@CacheEvict(value = "listAllClient",allEntries = true)
 	public ResponseEntity<?> deleteClient(@PathVariable("id") Long id) {
 		verifyIfClientExists(id);
 		_repository.deleteById(id);
