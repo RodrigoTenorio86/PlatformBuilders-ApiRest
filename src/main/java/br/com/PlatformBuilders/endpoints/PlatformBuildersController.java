@@ -73,9 +73,12 @@ public class PlatformBuildersController {
 
 	@PatchMapping(path = "/{id}")
 	@Transactional(rollbackFor = Exception.class)
-	public ResponseEntity<?> changeClient(@Valid @RequestBody Cliente cliente, @PathVariable("id") Long id) {
+	public ResponseEntity<?> changeClient( @RequestBody ClienteDTO clienteDTO, @PathVariable("id") Long id) {
 		verifyIfClientExists(id);
-		Cliente change = _repository.saveAndFlush(cliente);
+		Cliente change = _repository.getOne(id);
+		change.setCpf(clienteDTO.getCpf());
+		change.setNome(clienteDTO.getNome());
+		change.setDataNascimento(clienteDTO.getDataNascimento());
 		return new ResponseEntity<>(change, HttpStatus.OK);
 	}
 
