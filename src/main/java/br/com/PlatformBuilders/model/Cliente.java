@@ -21,6 +21,7 @@ public class Cliente implements Serializable {
 	private Long id;
 	@Column(nullable = false)
 	private String nome;
+	@Column(nullable = false)
 	@NotEmpty(message = "Campo CPF é Obrigatório.")
 	private String cpf;
 	@Column(name = "data_nascimento")
