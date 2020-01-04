@@ -1,5 +1,7 @@
 package br.com.PlatformBuilders.errors;
 
+import java.time.LocalDate;
+
 public class ValidationErrorDetails extends ErrorDetails {
 	private String field;
 	private String fieldMessage;
@@ -17,7 +19,7 @@ public class ValidationErrorDetails extends ErrorDetails {
 		private String title;
 		private int status;
 		private String detail;
-		private long timestamo;
+		private String timestamo;
 		private String developerMessage;
 		private String field;
 		private String fieldMessage;
@@ -54,7 +56,7 @@ public class ValidationErrorDetails extends ErrorDetails {
 			return this;
 		}
 
-		public Builder timestamo(long timestamo) {
+		public Builder timestamo(String timestamo) {
 			this.timestamo = timestamo;
 			return this;
 		}

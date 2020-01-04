@@ -1,12 +1,10 @@
 package br.com.PlatformBuilders.errors;
 
-import br.com.PlatformBuilders.errors.ResourceNotFoundDetails.Builder;
-
 public class ErrorDetails {
 	private String title;
 	private int status;
 	private String detail;
-	private long timestamo;
+	private String timestamo;
 	private String developerMessage;
 	
 
@@ -34,11 +32,11 @@ public class ErrorDetails {
 		this.detail = detail;
 	}
 
-	public long getTimestamo() {
+	public String getTimestamo() {
 		return timestamo;
 	}
 
-	public void setTimestamo(long timestamo) {
+	public void setTimestamo(String timestamo) {
 		this.timestamo = timestamo;
 	}
 
@@ -56,7 +54,7 @@ public class ErrorDetails {
 		private String title;
 		private int status;
 		private String detail;
-		private long timestamo;
+		private String timestamo;
 		private String developerMessage;
 
 		private Builder() {
@@ -81,7 +79,7 @@ public class ErrorDetails {
 			return this;
 		}
 
-		public Builder timestamo(long timestamo) {
+		public Builder timestamo(String timestamo) {
 			this.timestamo = timestamo;
 			return this;
 		}

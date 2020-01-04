@@ -1,7 +1,11 @@
 package br.com.PlatformBuilders.handler;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpHeaders;
@@ -22,11 +26,15 @@ import br.com.PlatformBuilders.errors.ValidationErrorDetails;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler{
+	private DateTimeFormatter formatador = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).withLocale(new Locale("pt","br"));
+	private LocalDateTime agora= LocalDateTime.now();
+	
 	@ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rfnException){
 	ResourceNotFoundDetails rnfDetails=	ResourceNotFoundDetails.Builder
 		.newBuilder()
-		.timestamo(new Date().getTime())
+	//	.timestamo(new Date().getTime())
+		.timestamo(agora.format(formatador))
 		.status(HttpStatus.NOT_FOUND.value())
 		.title("Resource not Found. ")
 		.detail(rfnException.getMessage())
@@ -50,7 +58,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 		
 		ValidationErrorDetails rnfDetails=	ValidationErrorDetails.Builder
 		.newBuilder()
-		.timestamo(new Date().getTime())
+		//.timestamo(new Date().getTime())
+		.timestamo(agora.format(formatador))
 		.status(HttpStatus.BAD_REQUEST.value())
 		.title("Field Validation Error. ")
 		.detail("Field Validation Error. ")
@@ -73,7 +82,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
     	
     	ErrorDetails errorDetails=	ErrorDetails.Builder
     			.newBuilder()
-    			.timestamo(new Date().getTime())
+    			//.timestamo(new Date().getTime())
+    			.timestamo(agora.format(formatador))
     			.status(status.value())
     			.title("Resource not Found. ")
     			.detail(ex.getMessage())
