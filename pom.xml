@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>br.com.PlatformBuilders</groupId>
 	<artifactId>PlatformBuilders-springboot</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.2-SNAPSHOT</version>
 	<name>PlatformBuilders</name>
 	<description>Demo project for Spring Boot</description>
 
@@ -79,6 +79,12 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>		
 	</dependencies>
 
 	<build>

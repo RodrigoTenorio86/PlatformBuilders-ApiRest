@@ -1,5 +1,8 @@
 package br.com.PlatformBuilders.config.security;
-
+/**
+ * @author rtenorio
+ * @date 04/01/2020
+ */
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;

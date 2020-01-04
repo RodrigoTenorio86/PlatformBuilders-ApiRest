@@ -1,5 +1,8 @@
 package br.com.PlatformBuilders.model;
-
+/**
+ * @author rtenorio
+ * @date 04/01/2020
+ */
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -92,10 +95,7 @@ public class Usuario implements UserDetails{
 			return false;
 		return true;
 	}
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", senha=" + senha + ", email=" + email + "]";
-	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.perfis;

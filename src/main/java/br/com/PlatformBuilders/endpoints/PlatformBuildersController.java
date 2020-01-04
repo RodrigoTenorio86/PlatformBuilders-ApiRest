@@ -28,11 +28,14 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.PlatformBuilders.endpoints.dto.ClienteDTO;
 import br.com.PlatformBuilders.errors.ResourceNotFoundException;
 import br.com.PlatformBuilders.model.Cliente;
-import br.com.PlatformBuilders.repository.PlatformBuildersRepository;
 import br.com.PlatformBuilders.service.PlatformBuildersService;
 
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+
 @RestController
-@RequestMapping(path = "/v2/clients",produces = "application/json",consumes = "application/json")
+@RequestMapping(path = "/v2/clients",produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
 
 public class PlatformBuildersController {
 

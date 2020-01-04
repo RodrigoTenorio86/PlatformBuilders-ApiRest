@@ -1,5 +1,8 @@
 package br.com.PlatformBuilders.model;
-
+/**
+ * @author rtenorio
+ * @date 04/01/2020
+ */
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
