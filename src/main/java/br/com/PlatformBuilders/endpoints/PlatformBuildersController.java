@@ -32,7 +32,7 @@ import br.com.PlatformBuilders.repository.PlatformBuildersRepository;
 import br.com.PlatformBuilders.service.PlatformBuildersService;
 
 @RestController
-@RequestMapping(path = "/v2/clients")
+@RequestMapping(path = "/v2/clients",produces = "application/json",consumes = "application/json")
 
 public class PlatformBuildersController {
 
