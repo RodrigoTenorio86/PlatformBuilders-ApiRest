@@ -48,8 +48,7 @@ public class PlatformBuildersController {
 
 	@GetMapping
 	@Cacheable(value = "listAllClient")
-	public ResponseEntity<?> listAll(
-			@PageableDefault(page = 0, size = 5, sort = "id", direction = Direction.DESC) Pageable paginacao) {
+	public ResponseEntity<?> listAll(@PageableDefault(page = 0, size = 5, sort = "id", direction = Direction.DESC) Pageable paginacao) {
 
 		Page<Cliente> clientes = service.findAll(paginacao);
 		return new ResponseEntity<>(clientes, HttpStatus.OK);

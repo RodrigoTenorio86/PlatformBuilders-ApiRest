@@ -1,7 +1,6 @@
 version: '2.1'
 
 services:
-
   api:
     image: rodrigotenorio86/platformbuilders
     ports:

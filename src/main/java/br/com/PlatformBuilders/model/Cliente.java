@@ -27,6 +27,18 @@ public class Cliente implements Serializable {
 	@Column(name = "data_nascimento")
 	private LocalDate dataNascimento;
 	private int idade;
+	
+	
+
+	public Cliente() {
+	}
+
+	public Cliente(String nome, String cpf, LocalDate dataNascimento,int idade) {
+		this.nome = nome;
+		this.cpf = cpf;
+		this.dataNascimento = dataNascimento;
+		this.idade = idade;
+	}
 
 	public Long getId() {
 		return id;
