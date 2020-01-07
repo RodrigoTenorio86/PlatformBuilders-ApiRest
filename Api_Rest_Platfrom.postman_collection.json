@@ -114,7 +114,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gUGxhdGZvcm1CdWlsZGVycyIsInN1YiI6IjEiLCJpYXQiOjE1NzgzMzc3ODksImV4cCI6MTU3ODQyNDE4OX0.rtiR27_THzShsFsyX43bewEMpWc9F7rQ5wenuQxPvcM",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gUGxhdGZvcm1CdWlsZGVycyIsInN1YiI6IjEiLCJpYXQiOjE1Nzg0MTcxMjcsImV4cCI6MTU3ODUwMzUyN30.1XnsBg9m208r7Ona99fqvhRbNa_EjiUvhp4J5DPRV_o",
 							"type": "string"
 						}
 					]
@@ -163,7 +163,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gUGxhdGZvcm1CdWlsZGVycyIsInN1YiI6IjEiLCJpYXQiOjE1NzgzMzc3ODksImV4cCI6MTU3ODQyNDE4OX0.rtiR27_THzShsFsyX43bewEMpWc9F7rQ5wenuQxPvcM",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gUGxhdGZvcm1CdWlsZGVycyIsInN1YiI6IjEiLCJpYXQiOjE1Nzg0MTcxMjcsImV4cCI6MTU3ODUwMzUyN30.1XnsBg9m208r7Ona99fqvhRbNa_EjiUvhp4J5DPRV_o",
 							"type": "string"
 						}
 					]
@@ -203,7 +203,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gUGxhdGZvcm1CdWlsZGVycyIsInN1YiI6IjEiLCJpYXQiOjE1NzgzMzc3ODksImV4cCI6MTU3ODQyNDE4OX0.rtiR27_THzShsFsyX43bewEMpWc9F7rQ5wenuQxPvcM",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gUGxhdGZvcm1CdWlsZGVycyIsInN1YiI6IjEiLCJpYXQiOjE1Nzg0MTcxMjcsImV4cCI6MTU3ODUwMzUyN30.1XnsBg9m208r7Ona99fqvhRbNa_EjiUvhp4J5DPRV_o",
 							"type": "string"
 						}
 					]
@@ -311,7 +311,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gUGxhdGZvcm1CdWlsZGVycyIsInN1YiI6IjEiLCJpYXQiOjE1NzgzMzc3ODksImV4cCI6MTU3ODQyNDE4OX0.rtiR27_THzShsFsyX43bewEMpWc9F7rQ5wenuQxPvcM",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gUGxhdGZvcm1CdWlsZGVycyIsInN1YiI6IjEiLCJpYXQiOjE1Nzg0MTcxMjcsImV4cCI6MTU3ODUwMzUyN30.1XnsBg9m208r7Ona99fqvhRbNa_EjiUvhp4J5DPRV_o",
 							"type": "string"
 						}
 					]
@@ -392,13 +392,24 @@
 				"header": [
 					{
 						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\":\"rodrigo@com\",\n\t\"senha\":\"123456\"\n}"
+					"raw": "{\n  \"email\": \"rodrigo@com\",\n  \"senha\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
 					"raw": "http://localhost:9000/platform/v1/auth",
