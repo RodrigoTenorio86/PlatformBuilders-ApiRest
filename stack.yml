@@ -10,14 +10,11 @@ services:
        MYSQL_USER: root
        MYSQL_DATABASE: plaform
        MYSQL_PASSWORD: Rr123
-    volumes:
-       - PlatformBuilders-springboot:/var/lib/mysql
+
     healthcheck:
       test: ["CMD-SHELL", 'mysqladmin ping']
       interval: 10s
       timeout: 2s
-      retries: 10
-      
-volumes:
-  PlatformBuilders-springboot:
+      retries: 10      
+
   
